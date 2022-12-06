@@ -1,5 +1,3 @@
-
-
 with open('input5','r') as f:
     # Préparation des piles
     pile = [ []  for i in range(9) ]
