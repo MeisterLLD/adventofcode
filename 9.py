@@ -3,25 +3,24 @@ def dist(head,tail):
     xt,yt = tail
     return abs(xt-xh)+abs(yt-yh)
 
-def movetail(dir,head,tail):
+def movetail(head,tail):
     x,y = head
-    dx,dy = dir
-
     x2,y2 = tail
+    dx,dy = x-x2, y-y2
 
     if dist(head,tail) <= 1: return tail
 
     if dist(head,tail) == 2:
-        if x==x2 or y==y2: return (x2+dx, y2+dy)
+        if x==x2 or y==y2: return (x2+dx//2, y2+dy//2)
         else: return tail
 
 
     # on est à distance 3
     if abs(y-y2) == 2:
         x2 = x
-        y2 = y2 + dy
+        y2 = y2 + dy//2
     else:
-        x2 = x2 + dx
+        x2 = x2 + dx//2
         y2 = y
     return x2,y2
 
@@ -44,7 +43,7 @@ with open('input9','r') as f:
 
         for i in range(nb):
             head = (head[0]+dir[0], head[1]+dir[1])
-            tail = movetail(dir,head,tail)
+            tail = movetail(head,tail)
             postail.add( tail  )
 
 print(len(postail))

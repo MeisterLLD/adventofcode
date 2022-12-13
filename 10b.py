@@ -1,39 +1,22 @@
-curcycle = 1
-X = 1
-crt = ''
+map = [ ]
+for ligne in open('input12','r').read().splitlines():
+    current_line = []
+    for char in ligne:
+        current_line.append(char)
+    map.append(current_line)
 
-def actualise(crt,X,curcycle):
-    if curcycle % 40 == 1: crt += '\n'
-
-    if (curcycle-1)%40 in {X-1,X,X+1} : crt += '#'
-    else: crt += '.'
-
-    return crt
-
-
-for ligne in open('input10','r').readlines():
-    if 'noop' in ligne:
-        # début cycle
-        crt = actualise(crt,X,curcycle)
-        # fin cycle
-        curcycle += 1
-
-    elif 'addx' in ligne:
-        nb = int(ligne.split(' ')[1])
-
-        # début cycle
-        crt = actualise(crt,X,curcycle)
-        # fin cycle
-        curcycle += 1
-
-        # début cycle
-        crt = actualise(crt,X,curcycle)
-        X += nb
-        # fin cycle
-        curcycle += 1
+n = len(map)
+m = len(map[0])
+for i in range(n):
+    for j in range(m):
+        if map[i][j] == 'S':
+            start_i,start_j = i,j
+        if map[i][j] == 'E':
+            end_i,end_j = i,j
 
 
-print(crt)
+
+#print(crt)
 
 
 

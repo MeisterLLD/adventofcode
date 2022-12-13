@@ -5,7 +5,6 @@ for ligne in open('input12','r').read().splitlines():
         current_line.append(char)
     map.append(current_line)
 
-
 n = len(map)
 m = len(map[0])
 
@@ -19,7 +18,10 @@ def voisins(coord):
     i,j = coord
     pot = [ (i-1,j), (i+1,j), (i,j-1), (i,j+1)    ]
     return [ (x,y) for (x,y) in pot if x>=0 and y>=0 and x<n and y<m and ord2(map[x][y]) <= ord2(map[i][j])+1   ]
+    # NB : on profite de l'évaluation paresseuse dans le dernier and !
 
+
+# Recherche du point de départ et d'arrivée
 for i in range(n):
     for j in range(m):
         if map[i][j] == 'S':
@@ -28,6 +30,8 @@ for i in range(n):
             end = i,j
 
 
+
+# Parcours en largeur avec calcul de distance
 def distlarg(root):
     vus = {root}
     dist = { }
@@ -47,6 +51,7 @@ def distlarg(root):
 
 dist = distlarg(start)
 print(dist[end])
+
 
 #12b
 starts = []

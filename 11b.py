@@ -1,11 +1,7 @@
-#fic = open('input11','r')
 items = [[61], [76, 92, 53, 93, 79, 86, 81], [91, 99], [58, 67, 66], [94, 54, 62, 73], [59, 95, 51, 58, 58], [87, 69, 92, 56, 91, 93, 88, 73], [71, 57, 86, 67, 96, 95]]
-
 inspected = [0]*8
 
 from math import floor, lcm
-
-
 
 def operation(i, x):
     if i == 0: return x*11
@@ -43,7 +39,6 @@ def sendto(i,bool):
 def manage(y):
     return y % lcm(5,2,13,7,19,11,3,17)
 
-
 tour = 0
 while(tour < 10000):
     for i in range(8):
@@ -51,7 +46,50 @@ while(tour < 10000):
         for _ in range(nbitems):
             x = items[i].pop(0)
             y = operation(i, x)
-            z = manage(y)
+            z = manage(y)def dijkstra2(g, source, arrivee):
+    ''' Dijkstra qui s'arrête dès qu'on tombe sur arrivee,
+    renvoie la distance et un chemin optimal
+    Entrée : un dictionnaire d'adjacence pondéré g. Chaque
+    objet est une liste de tuples.
+    Par ex g[0] = [(1,85), (2, 217), (4,173) ] etc.
+    '''
+    dist = { } # dictionnaire des distances à source
+    peres = { } # dictionnaire des pères
+    for s in g:
+        dist[s] = inf
+    dist[source] = 0
+    V = set()
+    V.add(source)
+    while len(V) > 0:
+        # recherche de la priorité maximale dans V
+        cand = None
+        mini = inf
+        for s in V:
+            if dist[s] < mini:
+                mini = dist[s]
+                cand = s
+        if cand == arrivee: break
+        V.remove(cand)
+        print('En train de traiter', cand)
+        # le prochain sommet traité est cand(idat)
+        for (v, d) in g[cand]: # on parcourt les voisins
+            if dist[cand] + d < dist[v]:
+                V.add(v)
+                dist[v] = dist[cand] + d
+                peres[v] = cand
+
+    # Reconstitution du chemin de source à arrivee
+    c = arrivee
+    chemin = [c]
+    while c != source:
+        c = peres[c]
+        chemin.append(c)
+
+    return dist[arrivee], chemin
+
+G = {0:[(1,85),(2,217),(4,173) ], 1:[(0,85), (5,80)], 2:[(0,217), (6,186),(7,103)  ], 3:[(7,183)], 4:[(0,173), (9,502) ], 5:[(1,80), (8,250)   ], 6:[(2,186)   ], 7:[(2,103),(3,183),(9,167) ], 8:[(5,250),(9,84)   ], 9:[(8,84),(7,167),(4,502)   ]}
+
+print(dijkstra2(G,0,9))
             inspected[i] += 1
             dest = sendto(i, test(i,z))
             items[dest].append(z)
